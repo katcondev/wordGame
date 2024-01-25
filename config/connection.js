@@ -7,8 +7,11 @@ const sequelize = new Sequelize(
   process.env.DB_PASSWORD,
   {
     host: "ec2-3-232-218-211.compute-1.amazonaws.com",
-    dialect: "mysql",
-    port: 5432,
+    dialect: "postgres", // Change the dialect to "postgres" for PostgreSQL
+    port: 5432, // Default PostgreSQL port
+    dialectOptions: {
+      ssl: { rejectUnauthorized: false }, // Enable SSL for Heroku PostgreSQL
+    },
   }
 );
 
