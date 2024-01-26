@@ -1,16 +1,21 @@
 const Sequelize = require("sequelize");
 require("dotenv").config();
+const fs = require("fs");
+const rdsCa = fs.readFileSync(__dirname + "/rds-combined-ca-bundle.pem");
 
 const sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
   process.env.DB_PASSWORD,
   {
-    host: "ec2-3-232-218-211.compute-1.amazonaws.com",
-    dialect: "postgres", // Change the dialect to "postgres" for PostgreSQL
-    port: 5432, // Default PostgreSQL port
+    host: "wordgamedb.ca2rma9t9xos.us-west-1.rds.amazonaws.com",
+    dialect: "postgres",
+    port: 5432,
     dialectOptions: {
-      ssl: { rejectUnauthorized: false }, // Enable SSL for Heroku PostgreSQL
+      ssl: {
+        rejectUnauthorized: true,
+        ca: [rdsCa],
+      },
     },
   }
 );
